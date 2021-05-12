@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  postgres:
+  news-db:
     image: postgres
     environment:
       - POSTGRES_USER=dev
@@ -11,25 +11,23 @@ services:
       # copy the sql script to create tables
       - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
     networks:
-      - database
+      - news-database
 
-  user-service:
-    image: user-service
+  news-service:
+    image: news-service
     build:
       context: ./
       dockerfile: Dockerfile
     ports:
-    - 8080:8080
-    depends_on:
-      - postgres
+      - 8081:8081
     volumes:
-      - /data/user-service
+      - /data/news-service
     networks:
-      - database
+      - news-database
       - network
 
 networks:
-  database:
+  news-database:
     driver: bridge
   network:
     driver: bridge
