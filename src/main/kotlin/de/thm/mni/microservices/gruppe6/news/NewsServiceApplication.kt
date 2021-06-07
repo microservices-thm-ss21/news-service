@@ -1,11 +1,11 @@
-package de.thm.mni.microservices.gruppe6.template
+package de.thm.mni.microservices.gruppe6.news
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class TemplateServiceApplication
+class NewsServiceApplication
 
 fun main(args: Array<String>) {
-    runApplication<TemplateServiceApplication>(*args)
+    runApplication<NewsServiceApplication>(*args)
 }
