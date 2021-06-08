@@ -2,10 +2,12 @@ package de.thm.mni.microservices.gruppe6.news.event
 
 import de.thm.mni.microservices.gruppe6.lib.event.DataEvent
 import de.thm.mni.microservices.gruppe6.lib.event.DomainEvent
+import de.thm.mni.microservices.gruppe6.lib.event.EventTopic
 import de.thm.mni.microservices.gruppe6.news.service.NewsStorageService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.jms.annotation.JmsListener
+import org.springframework.jms.annotation.JmsListeners
 import org.springframework.stereotype.Component
 import reactor.kotlin.core.publisher.toMono
 import javax.jms.Message
@@ -16,7 +18,13 @@ class Receiver(private val newsStorageService: NewsStorageService) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    @JmsListener(destination = "microservices.events", containerFactory = "jmsListenerContainerFactory")
+    @JmsListeners(
+        JmsListener(destination = EventTopic.DataEvents.topic, containerFactory = "jmsListenerContainerFactory"),
+        JmsListener(destination = EventTopic.DomainEvents_IssueService.topic, containerFactory = "jmsListenerContainerFactory"),
+        JmsListener(destination = EventTopic.DomainEvents_ProjectService.topic, containerFactory = "jmsListenerContainerFactory"),
+        JmsListener(destination = EventTopic.DomainEvents_UserService.topic, containerFactory = "jmsListenerContainerFactory"),
+        //No news service
+    )
     fun receive(message: Message) {
         try {
             if (message !is ObjectMessage) {
