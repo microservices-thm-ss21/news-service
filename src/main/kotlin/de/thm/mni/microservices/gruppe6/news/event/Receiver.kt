@@ -2,16 +2,17 @@ package de.thm.mni.microservices.gruppe6.news.event
 
 import de.thm.mni.microservices.gruppe6.lib.event.DataEvent
 import de.thm.mni.microservices.gruppe6.lib.event.DomainEvent
+import de.thm.mni.microservices.gruppe6.news.service.NewsStorageService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.jms.annotation.JmsListener
 import org.springframework.stereotype.Component
-import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 import javax.jms.Message
 import javax.jms.ObjectMessage
 
 @Component
-class Receiver() {
+class Receiver(private val newsStorageService: NewsStorageService) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -25,11 +26,11 @@ class Receiver() {
             when (val payload = message.`object`) {
                 is DataEvent -> {
                     logger.debug("Received DataEvent ObjectMessage with code {} and id {}", payload.code, payload.id)
+                    newsStorageService.storeDataEvent(payload.toMono())
                 }
                 is DomainEvent -> {
                     logger.debug("Received DomainEvent Object Message with code {}", payload.code)
-                    /** Do nothing for now / forever with domain events
-                     * No use within issue service */
+                    newsStorageService.storeDomainEvent(payload.toMono())
                 }
                 else -> {
                     logger.error(
