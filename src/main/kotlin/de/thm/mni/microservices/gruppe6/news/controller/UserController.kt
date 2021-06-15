@@ -1,20 +1,24 @@
 package de.thm.mni.microservices.gruppe6.news.controller
 
 import de.thm.mni.microservices.gruppe6.news.model.persistence.News
-import de.thm.mni.microservices.gruppe6.news.service.NewsRetrievalService
+import de.thm.mni.microservices.gruppe6.news.service.NewsReadingService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.util.MultiValueMap
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import java.util.*
 
 @RestController
 @RequestMapping("/api/news")
-class NewsController(@Autowired private val newsRetrievalService: NewsRetrievalService) {
+class NewsController(@Autowired private val newsReadingService: NewsReadingService) {
 
     @GetMapping("", "/")
-    fun getAllNewsWithoutDeleting(): Flux<News> = newsRetrievalService.getAllNews()
+    fun getAllNewsWithoutDeleting(@RequestParam params: MultiValueMap<String, String>)
+        : Flux<News> = newsReadingService.getAllNews(params)
 
     @GetMapping("/{userId}")
-    fun getAllUsers(@PathVariable userId: UUID): Flux<News> = newsRetrievalService.getNewsForUser(userId)
+    fun getAllUsers(@RequestParam params: MultiValueMap<String, String>,
+                    @PathVariable userId: UUID)
+        : Flux<News> = newsReadingService.getNewsForUser(params, userId)
 
 }

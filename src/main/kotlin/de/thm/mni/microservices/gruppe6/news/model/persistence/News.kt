@@ -10,11 +10,8 @@ import de.thm.mni.microservices.gruppe6.lib.event.UserDataEvent
 import io.r2dbc.postgresql.codec.Json
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
-import java.io.IOException
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
-
 
 @Table("news")
 data class News(

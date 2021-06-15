@@ -10,6 +10,9 @@ import java.util.*
 @Repository
 interface NewsRepository: ReactiveCrudRepository<News, UUID> {
 
+    /**
+     * Fetches all news from the database whose timestamp is after the given LocalDateTime.
+     */
     @Query("SELECT * from news n where n.time >= $1")
     fun getNewsByTimeAfter(time: LocalDateTime): Flux<News>
 
