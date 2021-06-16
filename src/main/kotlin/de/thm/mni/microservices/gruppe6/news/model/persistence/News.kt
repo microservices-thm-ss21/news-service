@@ -22,7 +22,7 @@ data class News(
     val projectId: UUID? = null,
     val userId: UUID? = null,
     @Id val newsId: UUID? = null,
-    val time: LocalDateTime = LocalDateTime.now(),
+    val timestamp: LocalDateTime = LocalDateTime.now(),
     ) {
 
     constructor(projectDataEvent: ProjectDataEvent, json: Json): this(projectDataEvent.code.name, json, projectId = projectDataEvent.id)
@@ -31,9 +31,9 @@ data class News(
 
 }
 
-class JsonDeserializer(): StdSerializer<Json>(Json::class.java) {
-    override fun serialize(obj: Json?, gen: JsonGenerator?, prov: SerializerProvider?) {
-        gen!!.writeString(obj!!.asString())
+class JsonDeserializer: StdSerializer<Json>(Json::class.java) {
+    override fun serialize(obj: Json, gen: JsonGenerator, prov: SerializerProvider) {
+        gen.writeString(obj.asString())
     }
 }
 
