@@ -8,8 +8,8 @@ create table users (
 create table news (
     news_id uuid primary key DEFAULT uuid_generate_v4(),
     "timestamp" timestamp not null,
+    news_subject varchar(30) not null,
     event_code varchar(30) not null,
-    event_data json not null,
     issue_id uuid null,
     project_id uuid null,
     user_id uuid null

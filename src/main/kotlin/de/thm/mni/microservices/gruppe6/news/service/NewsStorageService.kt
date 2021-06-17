@@ -17,14 +17,14 @@ class NewsStorageService(private val om: ObjectMapper, private val newsRepositor
     fun storeDataEvent(dataEvent: Mono<DataEvent>) {
         dataEvent.map {
             return@map when (it) {
-                is ProjectDataEvent -> News(it, Json.of(om.writeValueAsString(it)))
-                is UserDataEvent -> News(it, Json.of(om.writeValueAsString(it)))
-                is IssueDataEvent -> News(it, Json.of(om.writeValueAsString(it)))
+                is ProjectDataEvent -> News(it)
+                is UserDataEvent -> News(it)
+                is IssueDataEvent -> News(it)
                 else -> error("Unexpected Event type: ${it?.javaClass}")
             }
         }.doOnNext { news ->
             newsRepository.save(news).subscribe {
-                logger.debug("Storing News of type {} with data {}", it.eventCode, it.eventData)
+                logger.info("Storing News of type {} with data {}", it.eventCode)
             }.dispose()
         }.subscribe().dispose()
     }
