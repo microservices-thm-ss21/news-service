@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  title: API Specification for News-Service
+  description: API Specification for News-Service
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8084/api/news'
+paths:
+  /:
+    get:
+      description: |
+        Returns all News saved within the issue service
+      responses:
+        '200':
+          description: List of News
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNews'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /{userId}:
+    get:
+      description: Find News by userId
+      parameters:
+        - name: userId
+          in: path
+          description: ID of User
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "a443ffd0-f7a8-44f6-8ad3-87acd1e91042"
+      responses:
+        '200':
+          description: Issue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+        '404':
+          description: User not found
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                type: string
+
+components:
+  schemas:
+    News:
+      type: object
+      properties:
+        eventCode:
+          type: string
+        eventData:
+          type: object
+        issueId:
+          type: string
+          nullable: true
+        projectId:
+          type: string
+          nullable: true
+        userId:
+          type: string
+          nullable: true
+        newsId:
+          type: string
+        timestamp:
+          type: string
+          nullable: true
+
+    ArrayOfNews:
+      type: array
+      items:
+        $ref: '#/components/schemas/News'

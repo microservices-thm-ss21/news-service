@@ -1,5 +1,6 @@
 package de.thm.mni.microservices.gruppe6.news.service
 
+import de.thm.mni.microservices.gruppe6.lib.exception.ServiceException
 import de.thm.mni.microservices.gruppe6.news.model.persistence.News
 import de.thm.mni.microservices.gruppe6.news.model.persistence.NewsRepository
 import de.thm.mni.microservices.gruppe6.news.model.persistence.User
@@ -7,6 +8,7 @@ import de.thm.mni.microservices.gruppe6.news.model.persistence.UserRepository
 import org.springframework.stereotype.Component
 import org.springframework.util.MultiValueMap
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 import java.util.*
 import java.util.function.Predicate
@@ -23,7 +25,7 @@ class NewsReadingService(private val newsRepository: NewsRepository, private val
 
     fun getNewsForUser(params: MultiValueMap<String, String>, userId: UUID): Flux<News> {
         return Flux.create { sink ->
-            val userMono = userRepository.findById(userId)
+            val userMono = userRepository.findById(userId).switchIfEmpty(Mono.error(ServiceException(reason = "User not found!")))
             userMono.subscribe { user ->
                 newsRepository.getNewsByTimeAfter(user.lastNewsRetrieval).filterNews(params)
                     .doOnNext(sink::next)

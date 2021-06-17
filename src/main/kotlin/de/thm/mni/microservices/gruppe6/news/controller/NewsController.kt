@@ -10,6 +10,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/api/news")
+@CrossOrigin
 class NewsController(@Autowired private val newsReadingService: NewsReadingService) {
 
     @GetMapping("", "/")

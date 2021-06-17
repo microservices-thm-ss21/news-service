@@ -13,7 +13,7 @@ services:
     networks:
       - news-database
     ports:
-    - 5432:5432
+      - 5432:5432
 
   news-service:
     image: news-service
