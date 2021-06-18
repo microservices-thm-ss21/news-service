@@ -15,6 +15,17 @@ services:
     ports:
       - 5432:5432
 
+  news-mongo:
+    image: bitnami/mongodb
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - /bitnami/mongodb
+    networks:
+      - news-database
+    ports:
+      - 27017:27017
+
   news-service:
     image: news-service
     build:

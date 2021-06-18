@@ -1,6 +1,6 @@
 package de.thm.mni.microservices.gruppe6.news.controller
 
-import de.thm.mni.microservices.gruppe6.news.model.persistence.News
+import de.thm.mni.microservices.gruppe6.news.persistence.News
 import de.thm.mni.microservices.gruppe6.news.service.NewsReadingService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.util.MultiValueMap

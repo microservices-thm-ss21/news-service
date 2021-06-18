@@ -1,10 +1,11 @@
 package de.thm.mni.microservices.gruppe6.news.service
 
 import de.thm.mni.microservices.gruppe6.lib.exception.ServiceException
-import de.thm.mni.microservices.gruppe6.news.model.persistence.News
-import de.thm.mni.microservices.gruppe6.news.model.persistence.NewsRepository
-import de.thm.mni.microservices.gruppe6.news.model.persistence.User
-import de.thm.mni.microservices.gruppe6.news.model.persistence.UserRepository
+import de.thm.mni.microservices.gruppe6.news.persistence.News
+import de.thm.mni.microservices.gruppe6.news.persistence.NewsRepository
+import de.thm.mni.microservices.gruppe6.news.persistence.User
+import de.thm.mni.microservices.gruppe6.news.persistence.UserRepository
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.util.MultiValueMap
@@ -21,7 +22,7 @@ import kotlin.collections.ArrayList
 @Component
 class NewsReadingService(private val newsRepository: NewsRepository, private val userRepository: UserRepository) {
 
-    val logger = LoggerFactory.getLogger(this::class.java)
+    val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     fun getAllNews(params: MultiValueMap<String, String>): Flux<News>
         = newsRepository
@@ -34,7 +35,7 @@ class NewsReadingService(private val newsRepository: NewsRepository, private val
         return Flux.create { sink ->
             val userMono = userRepository.findById(userId).switchIfEmpty(Mono.error(ServiceException(reason = "User not found!")))
             userMono.subscribe { user ->
-                newsRepository.getNewsByTimeAfter(user.lastNewsRetrieval).filterNews(params)
+                newsRepository.findByTimestampBefore(user.lastNewsRetrieval).filterNews(params)
                     .doOnNext(sink::next)
                 user.lastNewsRetrieval = LocalDateTime.now()
                 userRepository.save(user)

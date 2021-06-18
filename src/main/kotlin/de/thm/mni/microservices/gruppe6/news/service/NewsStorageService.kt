@@ -2,9 +2,8 @@ package de.thm.mni.microservices.gruppe6.news.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.thm.mni.microservices.gruppe6.lib.event.*
-import de.thm.mni.microservices.gruppe6.news.model.persistence.News
-import de.thm.mni.microservices.gruppe6.news.model.persistence.NewsRepository
-import io.r2dbc.postgresql.codec.Json
+import de.thm.mni.microservices.gruppe6.news.persistence.News
+import de.thm.mni.microservices.gruppe6.news.persistence.NewsRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
