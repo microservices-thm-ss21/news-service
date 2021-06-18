@@ -1,20 +1,6 @@
 version: '3'
 
 services:
-  news-db:
-    image: postgres
-    environment:
-      - POSTGRES_USER=dev
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - /var/lib/postgresql/data
-      # copy the sql script to create tables
-      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
-    networks:
-      - news-database
-    ports:
-      - 5432:5432
-
   news-mongo:
     image: bitnami/mongodb
     environment:
