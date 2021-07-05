@@ -38,11 +38,11 @@ paths:
             example: "a443ffd0-f7a8-44f6-8ad3-87acd1e91042"
       responses:
         '200':
-          description: Issue
+          description: News
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/News'
+                $ref: '#/components/schemas/ArrayOfNews'
         '404':
           description: User not found
         default:
