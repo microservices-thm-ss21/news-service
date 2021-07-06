@@ -10,6 +10,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+/**
+ * Document class holding DataNews, i.e. newly created issues, users or projects.
+ * @param dataEvent the DataEvent object
+ * @param newsId UUID of the News object
+ * @param timestamp timestamp of the news
+ * @param newsSubject subject of the news: Is a Project, Issue or User in question.
+ */
 @Document
 data class DataNews(
     val dataEvent: DataEvent,

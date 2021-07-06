@@ -6,8 +6,12 @@ import com.mongodb.reactivestreams.client.MongoClient
 import com.mongodb.reactivestreams.client.MongoClients
 import org.springframework.context.annotation.Bean
 
+/**
+ * Configuration for reactive mongo db repositories + mongo client.
+ */
 @EnableReactiveMongoRepositories
 class MongoReactiveConfig: AbstractReactiveMongoConfiguration() {
+
     @Bean
     fun mongoClient(): MongoClient {
         return MongoClients.create()
