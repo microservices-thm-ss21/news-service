@@ -14,6 +14,7 @@ services:
 
   news-service:
     image: news-service
+    container_name: news-service
     build:
       context: ./
       dockerfile: Dockerfile
