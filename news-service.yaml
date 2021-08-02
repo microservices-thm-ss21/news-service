@@ -8,34 +8,7 @@ servers:
 paths:
   /:
     get:
-      description: |
-        Returns all News saved within the issue service
-      responses:
-        '200':
-          description: List of News
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ArrayOfNews'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                type: string
-
-  /{userId}:
-    get:
-      description: Find News by userId
-      parameters:
-        - name: userId
-          in: path
-          description: ID of User
-          required: true
-          schema:
-            type: string
-            format: uuid
-            example: "a443ffd0-f7a8-44f6-8ad3-87acd1e91042"
+      description: Find News for the authenticated user.
       responses:
         '200':
           description: News
@@ -45,6 +18,22 @@ paths:
                 $ref: '#/components/schemas/ArrayOfNews'
         '404':
           description: User not found
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                type: string
+  /admin/all:
+    get:
+      description: Returns all News saved. ADMIN only.
+      responses:
+        '200':
+          description: List of News
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNews'
         default:
           description: unexpected error
           content:

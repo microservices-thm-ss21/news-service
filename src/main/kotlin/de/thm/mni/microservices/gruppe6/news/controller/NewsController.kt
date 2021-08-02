@@ -1,5 +1,6 @@
 package de.thm.mni.microservices.gruppe6.news.controller
 
+import de.thm.mni.microservices.gruppe6.lib.classes.authentication.ServiceAuthentication
 import de.thm.mni.microservices.gruppe6.news.persistence.News
 import de.thm.mni.microservices.gruppe6.news.service.NewsReadingService
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +19,7 @@ class NewsController(@Autowired private val newsReadingService: NewsReadingServi
      * @param params Query parameters containing user, project or issue constraints.
      * @return Flux of News
      */
-    @GetMapping("", "/")
+    @GetMapping("/admin/all")
     fun getAllNewsWithoutDeleting(@RequestParam params: MultiValueMap<String, String>)
         : Flux<News> = newsReadingService.getAllNews(params)
 
@@ -28,9 +29,8 @@ class NewsController(@Autowired private val newsReadingService: NewsReadingServi
      * @param userId userId
      * @return Flux of News
      */
-    @GetMapping("/{userId}")
-    fun getNewsForUser(@RequestParam params: MultiValueMap<String, String>,
-                       @PathVariable userId: UUID)
-        : Flux<News> = newsReadingService.getNewsForUser(params, userId)
+    @GetMapping("/", "")
+    fun getNewsForUserAuth(@RequestParam params: MultiValueMap<String, String>, auth: ServiceAuthentication)
+            : Flux<News> = newsReadingService.getNewsForUser(params, auth.user!!.id!!)
 
 }
