@@ -25,6 +25,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-activemq")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.micrometer:micrometer-registry-influx:1.7.1")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
