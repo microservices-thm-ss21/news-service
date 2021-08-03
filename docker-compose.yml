@@ -9,8 +9,6 @@ services:
       - /bitnami/mongodb
     networks:
       - news-database
-    ports:
-      - 27017:27017
 
   news-service:
     image: news-service
@@ -18,8 +16,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    ports:
-      - 8084:8084
     volumes:
       - /data/news-service
     networks:
