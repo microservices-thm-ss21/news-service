@@ -30,6 +30,8 @@ class BrokerConfig{
         factory.setPubSubDomain(true)
         factory.setConnectionFactory(activeMQConnectionFactory)
         factory.setMessageConverter(jacksonJmsMessageConverter())
+        factory.setClientId("news-service")
+        factory.setSubscriptionDurable(true)
         return factory
     }
 
