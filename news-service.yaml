@@ -4,11 +4,11 @@ info:
   description: API Specification for News-Service
   version: 1.0.0
 servers:
-  - url: 'http://localhost:8084/api/news'
+  - url: 'http://localhost:8069/api/news'
 paths:
   /:
     get:
-      description: Find News for the authenticated user.
+      description: Returns all saved DataNews and DomainNews.
       responses:
         '200':
           description: News
@@ -16,6 +16,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfNews'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           description: User not found
         default:
@@ -34,6 +36,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfNews'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
         default:
           description: unexpected error
           content:
@@ -41,7 +45,18 @@ paths:
               schema:
                 type: string
 
+security:
+  - bearerAuth: [ ]
+
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
   schemas:
     News:
       type: object
@@ -53,14 +68,18 @@ components:
         issueId:
           type: string
           nullable: true
+          format: uuid
         projectId:
           type: string
           nullable: true
+          format: uuid
         userId:
           type: string
           nullable: true
+          format: uuid
         newsId:
           type: string
+          format: uuid
         timestamp:
           type: string
           nullable: true
