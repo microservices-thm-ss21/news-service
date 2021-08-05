@@ -32,10 +32,10 @@ class Receiver(private val newsStorageService: NewsStorageService) {
      * @param message a Object message, containing either a DataEvent or DomainEvent within its `object`-payload.
      */
     @JmsListeners(
-        JmsListener(destination = EventTopic.DataEvents.topic, containerFactory = "jmsListenerContainerFactory"),
-        JmsListener(destination = EventTopic.DomainEvents_IssueService.topic, containerFactory = "jmsListenerContainerFactory"),
-        JmsListener(destination = EventTopic.DomainEvents_ProjectService.topic, containerFactory = "jmsListenerContainerFactory"),
-        JmsListener(destination = EventTopic.DomainEvents_UserService.topic, containerFactory = "jmsListenerContainerFactory"),
+        JmsListener(destination = EventTopic.DataEvents.topic, containerFactory = "jmsDataEventListenerContainerFactory"),
+        JmsListener(destination = EventTopic.DomainEvents_IssueService.topic, containerFactory = "jmsIssueDomainEventListenerContainerFactory"),
+        JmsListener(destination = EventTopic.DomainEvents_ProjectService.topic, containerFactory = "jmsProjectDomainEventListenerContainerFactory"),
+        JmsListener(destination = EventTopic.DomainEvents_UserService.topic, containerFactory = "jmsUserDomainEventListenerContainerFactory"),
         //No news service
     )
     fun receive(message: Message) {

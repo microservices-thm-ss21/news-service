@@ -24,14 +24,43 @@ class BrokerConfig{
      * @param activeMQConnectionFactory Factory to create a connection
      * @return factory used to create a connection context
      */
-    @Bean
-    fun jmsListenerContainerFactory(activeMQConnectionFactory: ActiveMQConnectionFactory): DefaultJmsListenerContainerFactory {
+    fun jmsListenerContainerFactory(): DefaultJmsListenerContainerFactory {
         val factory = DefaultJmsListenerContainerFactory()
         factory.setPubSubDomain(true)
-        factory.setConnectionFactory(activeMQConnectionFactory)
         factory.setMessageConverter(jacksonJmsMessageConverter())
-        factory.setClientId("news-service")
         factory.setSubscriptionDurable(true)
+        return factory
+    }
+
+    @Bean
+    fun jmsDataEventListenerContainerFactory(activeMQConnectionFactory: ActiveMQConnectionFactory): DefaultJmsListenerContainerFactory {
+        val factory = jmsListenerContainerFactory()
+        factory.setConnectionFactory(activeMQConnectionFactory)
+        factory.setClientId("news-service-data-events")
+        return factory
+    }
+
+    @Bean
+    fun jmsIssueDomainEventListenerContainerFactory(activeMQConnectionFactory: ActiveMQConnectionFactory): DefaultJmsListenerContainerFactory {
+        val factory = jmsListenerContainerFactory()
+        factory.setConnectionFactory(activeMQConnectionFactory)
+        factory.setClientId("news-service-issue-domain-events")
+        return factory
+    }
+
+    @Bean
+    fun jmsProjectDomainEventListenerContainerFactory(activeMQConnectionFactory: ActiveMQConnectionFactory): DefaultJmsListenerContainerFactory {
+        val factory = jmsListenerContainerFactory()
+        factory.setConnectionFactory(activeMQConnectionFactory)
+        factory.setClientId("news-service-project-domain-events")
+        return factory
+    }
+
+    @Bean
+    fun jmsUserDomainEventListenerContainerFactory(activeMQConnectionFactory: ActiveMQConnectionFactory): DefaultJmsListenerContainerFactory {
+        val factory = jmsListenerContainerFactory()
+        factory.setConnectionFactory(activeMQConnectionFactory)
+        factory.setClientId("news-service-user-domain-events")
         return factory
     }
 
