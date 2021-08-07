@@ -24,17 +24,15 @@ class NewsController(@Autowired private val newsReadingService: NewsReadingServi
     @GetMapping("/admin/all")
     fun getAllNewsWithoutDeleting(@RequestParam params: MultiValueMap<String, String>)
         : Flux<News> = newsReadingService.getAllNews(params)
-            .onErrorResume { Mono.error(coverUnexpectedException(it)) }
 
     /**
      * Returns all saved DataNews and DomainNews received after the user checked last.
      * @param params Query parameters containing user, project or issue constraints.
-     * @param userId userId
+     * @param auth ServiceAuthentication object as created by WebFilter
      * @return Flux of News
      */
     @GetMapping("/", "")
     fun getNewsForUserAuth(@RequestParam params: MultiValueMap<String, String>, auth: ServiceAuthentication)
             : Flux<News> = newsReadingService.getNewsForUser(params, auth.user!!.id!!)
-            .onErrorResume { Mono.error(coverUnexpectedException(it)) }
 
 }

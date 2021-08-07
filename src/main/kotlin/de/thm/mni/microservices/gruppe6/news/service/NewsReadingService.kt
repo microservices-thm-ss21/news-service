@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component
 import org.springframework.util.MultiValueMap
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.time.Instant
 import java.time.LocalDateTime
 import java.util.*
 import java.util.function.Predicate
@@ -27,19 +28,20 @@ class NewsReadingService(private val domainNewsRepository: DomainNewsRepository,
         .log()
 
     fun getNewsForUser(params: MultiValueMap<String, String>, userId: UUID): Flux<News> {
-        return Flux.create { sink ->
-            val userMono = userRepository
-                .findById(userId)
-                .switchIfEmpty(Mono.error(ServiceException(reason = "User not found!")))
-            userMono.subscribe { user ->
+        return userRepository
+            .findById(userId)
+            .defaultIfEmpty(User(userId, Date.from(Instant.now().minusSeconds(604800))))
+            .map { user ->
+                val lastRetrieval = user.lastNewsRetrieval
+                user.lastNewsRetrieval = Date.from(Instant.now())
+                userRepository.save(user).subscribe()
+                lastRetrieval
+            }.flatMapMany { lastRetrieval ->
                 Flux.concat(
-                    dataNewsRepository.findByTimestampAfter(user.lastNewsRetrieval),
-                    domainNewsRepository.findByTimestampAfter(user.lastNewsRetrieval)
-                ).log().subscribe(sink::next).dispose()
-                user.lastNewsRetrieval = LocalDateTime.now()
-                userRepository.save(user).subscribe().dispose()
+                    dataNewsRepository.findByTimestampAfter(lastRetrieval),
+                    domainNewsRepository.findByTimestampAfter(lastRetrieval)
+                )
             }
-        }
     }
 
 //    fun Flux<DataNews>.filterNews(params: MultiValueMap<String, String>): Flux<DataNews> {

@@ -8,7 +8,7 @@ import java.util.*
 @Document
 data class User(
     @Id var userId: UUID,
-    var lastNewsRetrieval: LocalDateTime = LocalDateTime.MIN
+    var lastNewsRetrieval: Date
 )
 
 
