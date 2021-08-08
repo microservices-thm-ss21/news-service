@@ -12,6 +12,9 @@ import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
 import java.util.function.Predicate
 
+/**
+ * Class containing logic for extracting JWT-information from a ServerWebExchange.
+ */
 @Component
 class JwtFilter(private val jwtService: JwtService) {
 

@@ -7,6 +7,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+/**
+ * Document class holding DomainNews
+ * @param domainEvent the DomainEvent object
+ * @param newsId UUID of the News object
+ * @param timestamp timestamp of the news
+ * @param newsSubject subject of the news: Is a Project, Issue or User in question.
+ */
 @Document
 data class DomainNews(
     val domainEvent: DomainEvent,

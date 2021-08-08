@@ -15,6 +15,10 @@ class JwtService(@Value(value = "\${jwt.secret}") private val secret: String) {
     private val key: Key = Keys.hmacShaKeyFor(secret.toByteArray())
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    /**
+     * Extracts a User from a JWT.
+     * @param jwt a JSON Web Token.
+     */
     fun authorize(jwt: String): User? {
         return try {
             val claims: Claims =
