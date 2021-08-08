@@ -1,0 +1,24 @@
+= News Service
+
+Service responsible for collecting events, extrapolating news and serving them to the users.
+News may be read by logged-in users. The service saves a timestamp at which the user last retrieved its news and only sends News occured after that timestamp.
+
+== Tech-Stack
+The project service is based on the Spring Framework with Webflux and Netty as its HTTP-server stack and ActiveMQ connections as message broker. The project service is connected to dedicated MongoDB. This database is chosen for its ability to store unstructured data.
+
+== Database / MongoDB
+The database consists of two collections of documents: DomainNews and DataNews. (see orga-docs)
+
+== HTTP API
+The API is documented as OpenAPI Specification in https://git.thm.de/microservicesss21/news-service/-/blob/master/news-service.yaml[news-service.yaml]
+
+== Message-Broker / ActiveMQ
+
+This service does not send any requests.
+
+This service is listening to all topics within the system, except for microservices.sagaEvents.
+Incoming Events from ActiveMQ are wrapped with meta data and stored as documents within MongoDB.
+
+== Further Reading
+Please refer to the https://git.thm.de/microservicesss21/orga/-/blob/master/README.md[README] of the Orga-Repository for more information.
+This service uses the https://git.thm.de/microservicesss21/service-lib/-/blob/master/README.md[service-lib] as a dependency.
