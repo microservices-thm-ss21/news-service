@@ -10,7 +10,7 @@ The project service is based on the Spring Framework with Webflux and Netty as i
 The database consists of two collections of documents: DomainNews and DataNews. (see orga-docs)
 
 == HTTP API
-The API is documented as OpenAPI Specification in https://git.thm.de/microservicesss21/news-service/-/blob/master/news-service.yaml[news-service.yaml]
+The API is documented as OpenAPI Specification in https://git.thm.de/microservicesss21/orga/-/tree/master/doc/apis[news-service.yaml]
 
 == Message-Broker / ActiveMQ
 
