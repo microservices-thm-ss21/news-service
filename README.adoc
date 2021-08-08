@@ -12,6 +12,10 @@ The database consists of two collections of documents: DomainNews and DataNews. 
 == HTTP API
 The API is documented as OpenAPI Specification in https://git.thm.de/microservicesss21/orga/-/tree/master/doc/apis[news-service.yaml]
 
+
+To test the API please use the https://git.thm.de/microservicesss21/orga/-/blob/master/doc/apis/Micro-Services.postman_collection.json[Postman collection].
+
+
 == Message-Broker / ActiveMQ
 
 This service does not send any requests.
